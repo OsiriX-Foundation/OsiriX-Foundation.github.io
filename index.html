@@ -37,7 +37,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
 
       //define an implicit flow
       //check-sso - check if user is already logged
-      keycloak.init({flow: 'implicit', checkLoginIframe: true, onLoad: 'check-sso'})
+      keycloak.init({flow: 'implicit', onLoad: 'check-sso'})
       keycloak.onReady = function(){
         if (!keycloak.authenticated) {
           document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a>'
@@ -68,12 +68,6 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
         document.getElementById('name').innerHTML = keycloak.idTokenParsed.name;
         document.getElementById('givenName').innerHTML = keycloak.idTokenParsed.given_name;
         document.getElementById('familyName').innerHTML = keycloak.idTokenParsed.family_name;
-        /*
-        var tokerReader = '';
-        for (var property in keycloak.idTokenParsed) {
-          tokerReader += property + ': ' + keycloak.idTokenParsed[property] + '<br /> ';
-        }
-        */
         document.getElementById('token').innerHTML = keycloak.token
       }
     </script>
