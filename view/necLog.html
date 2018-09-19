@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>View Page</title>
+    <script src="../keycloak.js"></script>
+  </head>
+  <body>
+    <p id="url" hidden>
+      <a href="#" onclick="keycloak.logout()">logout</a> |
+      <a href="../myapp.html">Home</a>
+      <a href="index.html">Login page</a>
+    </p>
+    <p id="done"></p>
+    <script>
+      var keycloak = Keycloak({
+        url: 'https://test.kheops.online:8443/auth',
+        realm: 'StaticLoginConnect',
+        clientId: 'loginConnect'
+      });
+      keycloak.init({ flow: 'implicit', onLoad: 'login-required', checkLoginIframe: false  })
+
+      keycloak.onAuthSuccess = function() {
+        document.getElementById('url').hidden = false
+        document.getElementById('done').innerHTML = 'You are logged'
+       }
+    </script>
+  </body>
+</html>
