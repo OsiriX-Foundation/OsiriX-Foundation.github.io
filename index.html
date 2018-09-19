@@ -41,7 +41,8 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       keycloak.init({flow: 'implicit', onLoad: 'check-sso'})
       keycloak.onReady = function(){
         if (!keycloak.authenticated) {
-          document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a>'
+          document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a> '+
+          '<a href="#" onclick="keycloak.createAccountUrl()">Create an user</a>'
           document.getElementById("userNotLogged").hidden = false
           document.getElementById("userDetails").hidden = true
         }
@@ -55,7 +56,8 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
        }
 
        keycloak.onAuthLogout = function() {
-         document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a>'
+         document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a> '+
+         '<a href="#" onclick="keycloak.createAccountUrl()">Create an user</a>'
          document.getElementById("userNotLogged").hidden = false
          document.getElementById("userDetails").hidden = true
        }
