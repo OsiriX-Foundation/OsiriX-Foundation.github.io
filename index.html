@@ -7,7 +7,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
 <html>
   <head>
     <title>View Page</title>
-    <script src="https://test.kheops.online:8443/auth/js/keycloak.js"></script>
+    <script src="https://keycloak.kheops.online/auth/js/keycloak.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
 
@@ -34,7 +34,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
     <script>
       //Conf for the keycloak srv
       var keycloak = Keycloak({
-        url: 'https://test.kheops.online:8443/auth',
+        url: 'https://keycloak.kheops.online/auth',
         realm: 'StaticLoginConnect',
         clientId: 'loginConnect'
       });
