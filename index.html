@@ -26,8 +26,9 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       <p>Full Name: <span id="name"></span></p>
       <p>First name: <span id="givenName"></span></p>
       <p>Last name: <span id="familyName"></span></p>
-      <p>Token Full: <br /> <span id="token"></span></p>
-      <button id="loadStudies" hidden>Load studies</button>
+      <p>Token Full: <br /> <span id="token"></span> <br /></p>
+      <p>Studies : <span id="studies"></span> <p>
+      <button id="loadStudies">Load studies</button>
     </div>
 
     <script>
@@ -105,7 +106,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       const Token='eyJhbGciOiJIUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJhdXRob3JpemF0aW9uLmtoZW9wcy5vbmxpbmUiLCJzdWIiOiIxMDcxMDY3NTUxNjE1MjIzOTE5NTIiLCJlbWFpbCI6Im1zYW5rYXI0c3ViQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJleHAiOjI1MjI5NDM1NzIsImlzcyI6ImF1dGhvcml6YXRpb24ua2hlb3BzLm9ubGluZSIsImlhdCI6MTUyMjkzOTk3Mn0.W-hBqaczyiG5Q8peQGY8YvAP0DvGuy57RdMDfwuHDWs'
       const Url = 'https://test.kheops.online/authorization/studies'
 
-      $(document).ready(function() {
+      $( "#loadStudies" ).on("click", function(){
 
         var xmlRequest = $.ajax({
           url: Url,
@@ -118,7 +119,8 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
 
         xmlRequest
           .done(function( data ) {
-            console.log(data)
+            var text = JSON.stringify(data)
+            $("#studies").html(text)
           })
           .fail(function( jqXHR, textStatus, errorThrown) {
             console.log(textStatus)
