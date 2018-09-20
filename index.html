@@ -8,6 +8,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
   <head>
     <title>View Page</title>
     <script src="https://test.kheops.online:8443/auth/js/keycloak.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
 
   <body>
@@ -49,7 +50,6 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       }
       //If user is logged, launch the function loadData()
       keycloak.onAuthSuccess = function() {
-        console.log(keycloak)
         loadData()
         document.getElementById('url').innerHTML = ' <a href="#" onclick="keycloak.accountManagement()">Account management</a> '+
         '<a href="#" onclick="keycloak.logout()">Logout</a>'
@@ -73,7 +73,31 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
         document.getElementById('familyName').innerHTML = keycloak.idTokenParsed.family_name;
         document.getElementById('token').innerHTML = keycloak.token
       }
-    </script>
 
+      const Token='eyJhbGciOiJIUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJhdXRob3JpemF0aW9uLmtoZW9wcy5vbmxpbmUiLCJzdWIiOiIxMDcxMDY3NTUxNjE1MjIzOTE5NTIiLCJlbWFpbCI6Im1zYW5rYXI0c3ViQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJleHAiOjI1MjI5NDM1NzIsImlzcyI6ImF1dGhvcml6YXRpb24ua2hlb3BzLm9ubGluZSIsImlhdCI6MTUyMjkzOTk3Mn0.W-hBqaczyiG5Q8peQGY8YvAP0DvGuy57RdMDfwuHDWs'
+      const Url = 'https://test.kheops.online/authorization/studies'
+
+      $(document).ready(function() {
+
+        var xmlRequest = $.ajax({
+          url: Url,
+          dataType: "json",
+          beforeSend: function(xhr) {
+               xhr.setRequestHeader('Authorization','Bearer ' + Token),
+               xhr.setRequestHeader('Accept', ' application/dicom+json')
+          }
+        })
+
+        xmlRequest
+        .done(function( data ) {
+          console.log(data)
+        })
+        .fail(function( jqXHR, textStatus, errorThrown) {
+          console.log(textStatus)
+        })
+
+      })
+
+    </script>
   </body>
 </html>
