@@ -1,5 +1,7 @@
 <!--
+
 https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
+
 -->
 
 <html>
@@ -25,6 +27,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       <p>First name: <span id="givenName"></span></p>
       <p>Last name: <span id="familyName"></span></p>
       <p>Token Full: <br /> <span id="token"></span></p>
+      <button id="loadStudies" hidden>Load studies</button>
     </div>
 
     <script>
@@ -40,37 +43,63 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       keycloak.init({flow: 'implicit', onLoad: 'check-sso'})
       keycloak.onReady = function(){
         if (!keycloak.authenticated) {
-          document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a> '+
-          '<a href="#" onclick="keycloak.register()">Create an user</a>'
-          document.getElementById("userNotLogged").hidden = false
-          document.getElementById("userDetails").hidden = true
+          $('#url').html('<a href="#" onclick="keycloak.login()">Login</a> '+
+          '<a href="#" onclick="keycloak.register()">Create an user</a>' )
+          $("#userNotLogged").show()
+          $("#userDetails").hide()
         }
       }
       //If user is logged, launch the function loadData()
       keycloak.onAuthSuccess = function() {
+        console.log("authSuccess")
         loadData()
-        document.getElementById('url').innerHTML = ' <a href="#" onclick="keycloak.accountManagement()">Account management</a> '+
-        '<a href="#" onclick="keycloak.logout()">Logout</a>'
+        $('#url').html(' <a href="#" onclick="keycloak.accountManagement()">Account management</a> '+
+        '<a href="#" onclick="keycloak.logout()">Logout</a>')
        }
 
        keycloak.onAuthLogout = function() {
-         document.getElementById('url').innerHTML = '<a href="#" onclick="keycloak.login()">Login</a> '+
-         '<a href="#" onclick="keycloak.register()">Create an user</a>'
-         document.getElementById("userNotLogged").hidden = false
-         document.getElementById("userDetails").hidden = true
+         $('#url').html('<a href="#" onclick="keycloak.login()">Login</a> '+
+         '<a href="#" onclick="keycloak.register()">Create an user</a>' )
+         $("#userNotLogged").show()
+         $("#userDetails").hide()
        }
 
       var loadData = function () {
-        document.getElementById("userNotLogged").hidden = true
-        document.getElementById("userDetails").hidden = false
-        document.getElementById('profileType').innerHTML = 'IDToken';
-        document.getElementById('username').innerHTML = keycloak.idTokenParsed.preferred_username;
-        document.getElementById('email').innerHTML = keycloak.idTokenParsed.email;
-        document.getElementById('name').innerHTML = keycloak.idTokenParsed.name;
-        document.getElementById('givenName').innerHTML = keycloak.idTokenParsed.given_name;
-        document.getElementById('familyName').innerHTML = keycloak.idTokenParsed.family_name;
-        document.getElementById('token').innerHTML = keycloak.token
+        $("#userNotLogged").hide()
+        $("#userDetails").show()
+        $("#profileType").text('IDToken')
+        $('#username').text(keycloak.idTokenParsed.preferred_username);
+        $('#email').text(keycloak.idTokenParsed.email);
+        $('#name').text(keycloak.idTokenParsed.name);
+        $('#givenName').text(keycloak.idTokenParsed.given_name);
+        $('#familyName').text(keycloak.idTokenParsed.family_name);
+        $('#token').text(keycloak.token)
       }
+
+      /*
+      $( "#loadStudies" ).on("click", function(){
+        const Url = 'https://test.kheops.online/authorization/studies'
+        Token = keycloak.token
+        console.log(Token)
+        var xmlRequest = $.ajax({
+          url: Url,
+          dataType: "json",
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization','Bearer ' + Token),
+            xhr.setRequestHeader('Accept', ' application/dicom+json')
+          }
+        })
+
+        xmlRequest
+          .done(function( data ) {
+            console.log(data)
+          })
+          .fail(function( jqXHR, textStatus, errorThrown) {
+            console.log(textStatus)
+          })
+      })
+
+      // http://www.ajax-cross-origin.com/how.html
 
       const Token='eyJhbGciOiJIUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJhdXRob3JpemF0aW9uLmtoZW9wcy5vbmxpbmUiLCJzdWIiOiIxMDcxMDY3NTUxNjE1MjIzOTE5NTIiLCJlbWFpbCI6Im1zYW5rYXI0c3ViQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJleHAiOjI1MjI5NDM1NzIsImlzcyI6ImF1dGhvcml6YXRpb24ua2hlb3BzLm9ubGluZSIsImlhdCI6MTUyMjkzOTk3Mn0.W-hBqaczyiG5Q8peQGY8YvAP0DvGuy57RdMDfwuHDWs'
       const Url = 'https://test.kheops.online/authorization/studies'
@@ -80,21 +109,25 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
         var xmlRequest = $.ajax({
           url: Url,
           dataType: "json",
+          //contentType: "application/json",
+          Origin: "test.kheops.online",
+          headers:{'Access-Control-Allow-Origin': '*',},
           beforeSend: function(xhr) {
-               xhr.setRequestHeader('Authorization','Bearer ' + Token),
-               xhr.setRequestHeader('Accept', ' application/dicom+json')
+            xhr.setRequestHeader('Authorization','Bearer ' + Token),
+            xhr.setRequestHeader('Accept', ' application/dicom+json')
           }
         })
 
         xmlRequest
-        .done(function( data ) {
-          console.log(data)
-        })
-        .fail(function( jqXHR, textStatus, errorThrown) {
-          console.log(textStatus)
-        })
+          .done(function( data ) {
+            console.log(data)
+          })
+          .fail(function( jqXHR, textStatus, errorThrown) {
+            console.log(textStatus)
+          })
 
       })
+      */
 
     </script>
   </body>
