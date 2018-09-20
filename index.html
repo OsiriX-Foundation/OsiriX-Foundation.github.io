@@ -77,16 +77,17 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
         $('#token').text(keycloak.token)
       }
 
-      /*
-      $( "#loadStudies" ).on("click", function(){
+
+      $(document).ready(function() {
+      //$( "#loadStudies" ).on("click", function(){
         const Url = 'https://test.kheops.online/authorization/studies'
-        Token = keycloak.token
+        TokenKeycloak = keycloak.token
         console.log(Token)
         var xmlRequest = $.ajax({
           url: Url,
           dataType: "json",
           beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization','Bearer ' + Token),
+            xhr.setRequestHeader('Authorization','Bearer ' + TokenKeycloak),
             xhr.setRequestHeader('Accept', ' application/dicom+json')
           }
         })
@@ -99,7 +100,6 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
             console.log(textStatus)
           })
       })
-      */
 
       // http://www.ajax-cross-origin.com/how.html
 
