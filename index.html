@@ -1,106 +1,36 @@
 <!--
-
 https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
-
 -->
 
 <html>
-  <head>
-    <title>View Page</title>
+<head>
+    <title>Keycloak sample</title>
+
     <script src="https://keycloak.kheops.online/auth/js/keycloak.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  </head>
+    <script src="./index.js"></script>
+</head>
+<body>
 
-  <body>
-    <p id="url"></p>
+<a href="#" onclick="keycloak.logout()">Logout</a>
+<a href="#" onclick="keycloak.accountManagement()">Account management</a>
 
-    <div id="userNotLogged" hidden>
-      <p>User not logged, you can see informations if you are logged.</p>
-      <p>If you aren't register in this application, you can create an user on the link Login (New user? Register) or on the link Create an user.</p>
-    </div>
+<h4>User details (from IDToken)</h4>
+<p>Username: <span id="username"></span></p>
+<p>Email: <span id="email"></span></p>
+<p>Full Name: <span id="name"></span></p>
+<p>First name: <span id="given-name"></span></p>
+<p>Last name: <span id="family-name"></span></p>
+<p>Token Full: <br/> <span id="token"></span> <br/></p>
+<p>Studies : <span id="studies"></span>
 
-    <div id="userDetails" hidden>
-      <p><b>User details (from <span id="profileType"></span>)</b></p>
-      <p>Username: <span id="username"></span></p>
-      <p>Email: <span id="email"></span></p>
-      <p>Full Name: <span id="name"></span></p>
-      <p>First name: <span id="givenName"></span></p>
-      <p>Last name: <span id="familyName"></span></p>
-      <p>Token Full: <br /> <span id="token"></span> <br /></p>
-      <p>Studies : <span id="studies"></span> <p>
-      <button id="loadStudies">Load studies</button>
-    </div>
+<p>
+    <button id="load-studies" onclick="loadStudies()">Load studies</button>
+</p>
+<p id="study-list"></p>
 
-    <script>
-      //Conf for the keycloak srv
-      var keycloak = Keycloak({
-        url: 'https://keycloak.kheops.online/auth',
-        realm: 'StaticLoginConnect',
-        clientId: 'loginConnect'
-      });
+<script>
+    initKeycloak();
+</script>
 
-      //define an implicit flow
-      //check-sso - check if user is already logged
-      keycloak.init({flow: 'implicit', onLoad: 'check-sso'}).then(function(authenticated){}).catch(function(){});
-      keycloak.onReady = function(){
-        if (!keycloak.authenticated) {
-          $('#url').html('<a href="#" onclick="keycloak.login()">Login</a> '+
-          '<a href="#" onclick="keycloak.register()">Create an user</a>' )
-          $("#userNotLogged").show()
-          $("#userDetails").hide()
-        }
-      }
-      //If user is logged, launch the function loadData()
-      keycloak.onAuthSuccess = function() {
-        console.log("authSuccess")
-        loadData()
-        $('#url').html(' <a href="#" onclick="keycloak.accountManagement()">Account management</a> '+
-        '<a href="#" onclick="keycloak.logout()">Logout</a>')
-       }
-
-       keycloak.onAuthLogout = function() {
-         $('#url').html('<a href="#" onclick="keycloak.login()">Login</a> '+
-         '<a href="#" onclick="keycloak.register()">Create an user</a>' )
-         $("#userNotLogged").show()
-         $("#userDetails").hide()
-       }
-
-      var loadData = function () {
-        $("#userNotLogged").hide()
-        $("#userDetails").show()
-        $("#profileType").text('IDToken')
-        $('#username').text(keycloak.idTokenParsed.preferred_username);
-        $('#email').text(keycloak.idTokenParsed.email);
-        $('#name').text(keycloak.idTokenParsed.name);
-        $('#givenName').text(keycloak.idTokenParsed.given_name);
-        $('#familyName').text(keycloak.idTokenParsed.family_name);
-        $('#token').text(keycloak.token)
-      }
-
-
-      //$(document).ready(function() {
-      $( "#loadStudies" ).on("click", function(){
-        const Url = 'https://test.kheops.online/authorization/studies'
-        TokenKeycloak = keycloak.token
-        var xmlRequest = $.ajax({
-          url: Url,
-          dataType: "json",
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization','Bearer ' + TokenKeycloak),
-            xhr.setRequestHeader('Accept', ' application/dicom+json')
-          }
-        })
-
-        xmlRequest
-          .done(function( data ) {
-            var text = JSON.stringify(data)
-            $("#studies").html(text)
-          })
-          .fail(function( jqXHR, textStatus, errorThrown) {
-            console.log(textStatus)
-          })
-      })
-
-    </script>
-  </body>
+</body>
 </html>
