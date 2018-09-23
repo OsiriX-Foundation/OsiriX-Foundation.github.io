@@ -31,13 +31,11 @@ function loadStudies() {
         req.setRequestHeader('Accept', 'application/dicom+json');
         req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
 
-        req.onreadystatechange = function () {
-            if (req.readyState === 4) {
-                if (req.status === 200) {
-                    document.getElementById('study-list').textContent = req.responseText;
-                } else if (req.status === 403) {
-                    alert('Forbidden');
-                }
+        req.onload = function () {
+            if (req.status === 200) {
+                document.getElementById('study-list').textContent = req.responseText;
+            } else if (req.status === 403) {
+                alert('Forbidden');
             }
         };
 
