@@ -5,9 +5,9 @@ let keycloak = Keycloak({
     clientId: 'loginConnect'
 });
 
-function initKeycloak() {
+window.onload = function initKeycloak() {
     keycloak.init({flow: 'hybrid', onLoad: 'login-required'});
-}
+};
 
 keycloak.onReady = function () {
     updateLabels();
@@ -23,7 +23,7 @@ function updateLabels() {
 }
 
 function loadStudies() {
-    keycloak.updateToken(30).then(function updateStudies () {
+    keycloak.updateToken(30).then(function updateStudies() {
         const qidoURL = 'https://test.kheops.online/authorization/studies';
 
         let req = new XMLHttpRequest();
