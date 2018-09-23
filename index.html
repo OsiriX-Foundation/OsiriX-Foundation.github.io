@@ -1,7 +1,6 @@
 <!--
 https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
 -->
-
 <html>
 <head>
     <title>Keycloak sample</title>
@@ -14,6 +13,8 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
 <a href="#" onclick="keycloak.logout()">Logout</a>
 <a href="#" onclick="keycloak.accountManagement()">Account management</a>
 
+<hr>
+
 <h4>User details (from IDToken)</h4>
 <p>Username: <span id="username"></span></p>
 <p>Email: <span id="email"></span></p>
@@ -24,8 +25,10 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
 <p>Studies : <span id="studies"></span>
 
 <p>
-    <button id="load-studies" onclick="loadStudies()">Load studies</button>
+    <button onclick="loadStudies()">Load studies</button>
+    <button onclick="clearStudies()">Clear studies</button>
 </p>
+<hr>
 <p id="study-list"></p>
 
 <script>

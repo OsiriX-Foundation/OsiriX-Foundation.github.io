@@ -24,7 +24,6 @@ function updateLabels() {
 
 function loadStudies() {
     keycloak.updateToken(30).then(function updateStudies () {
-        let studyListElement = document.getElementById('study-list');
         const qidoURL = 'https://test.kheops.online/authorization/studies';
 
         let req = new XMLHttpRequest();
@@ -35,7 +34,7 @@ function loadStudies() {
         req.onreadystatechange = function () {
             if (req.readyState === 4) {
                 if (req.status === 200) {
-                    studyListElement.textContent = req.responseText;
+                    document.getElementById('study-list').textContent = req.responseText;
                 } else if (req.status === 403) {
                     alert('Forbidden');
                 }
@@ -47,3 +46,8 @@ function loadStudies() {
         alert('Failed to refresh token');
     });
 }
+
+function clearStudies() {
+    document.getElementById('study-list').textContent = "";
+}
+
