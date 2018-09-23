@@ -9,18 +9,14 @@ window.onload = function initKeycloak() {
     keycloak.init({flow: 'hybrid', onLoad: 'login-required'});
 };
 
-keycloak.onReady = function () {
-    updateLabels();
-};
-
-function updateLabels() {
+keycloak.onReady = function updateLabels() {
     document.getElementById('username').textContent = keycloak.idTokenParsed.preferred_username;
     document.getElementById('email').textContent = keycloak.idTokenParsed.email;
     document.getElementById('name').textContent = keycloak.idTokenParsed.name;
     document.getElementById('given-name').textContent = keycloak.idTokenParsed.given_name;
     document.getElementById('family-name').textContent = keycloak.idTokenParsed.family_name;
     document.getElementById('token').textContent = keycloak.token;
-}
+};
 
 function loadStudies() {
     keycloak.updateToken(30).then(function updateStudies() {
