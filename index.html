@@ -42,6 +42,7 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       //define an implicit flow
       //check-sso - check if user is already logged
       keycloak.init({flow: 'implicit', onLoad: 'check-sso'})
+
       keycloak.onReady = function(){
         if (!keycloak.authenticated) {
           $('#url').html('<a href="#" onclick="keycloak.login()">Login</a> '+
@@ -52,7 +53,6 @@ https://www.keycloak.org/docs/4.4/securing_apps/index.html#_javascript_adapter
       }
       //If user is logged, launch the function loadData()
       keycloak.onAuthSuccess = function() {
-        console.log("authSuccess")
         loadData()
         $('#url').html(' <a href="#" onclick="keycloak.accountManagement()">Account management</a> '+
         '<a href="#" onclick="keycloak.logout()">Logout</a>')

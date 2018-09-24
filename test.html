@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- USAGE:
+     (1) replace myserver.example.com with your keycloak server
+     (2) replace myrealm with realm
+     (3) replace myclient with cliend ID
+-->
+<html>
+    <head>
+        <title>Keycloak js client example</title>
+    </head>
+    <body>
+        <script src="https://keycloak.kheops.online/auth/js/keycloak.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            var keycloak = Keycloak({
+                url: 'https://keycloak.kheops.online/auth',
+                realm: 'StaticLoginConnect',
+                clientId: 'loginConnect'
+            });
+            keycloak.init({onLoad: 'check-sso'}).success(function (authenticated) {
+                console.log('authenticated : ' + authenticated);
+            }).catch(function () {
+                alert('failed to initialize');
+            });
+          });
+        </script>
+    </body>
+</html>
