@@ -20,7 +20,7 @@ keycloak.onReady = function updateLabels() {
 
 function loadStudies() {
     keycloak.updateToken(30).then(function updateStudies() {
-        const qidoURL = 'https://test.kheops.online/authorization/studies';
+        const qidoURL = 'https://test.kheops.online/studies';
 
         let req = new XMLHttpRequest();
         req.open('GET', qidoURL, true);
