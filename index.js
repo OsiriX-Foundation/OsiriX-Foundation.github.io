@@ -53,9 +53,7 @@ function loadImage() {
 
         req.onload = function () {
             if (req.status === 200) {
-                let uintArray = new Uint8Array(req.response);
-                let base64 = btoa(String.fromCharCode.apply(null, uintArray)); // only workable if the buffer is smallish ~100k
-                document.getElementById('sample-image').src = 'data:image/jpeg;base64,' + base64;
+                document.getElementById('sample-image').src = 'data:image/jpeg;base64,' + base64ArrayBuffer(req.response);
             } else if (req.status === 401) {
                 alert('401 Unauthorized');
             } else if (req.status === 403) {
