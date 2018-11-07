@@ -42,7 +42,7 @@ function loadStudies() {
 }
 
 function loadImage() {
-    keycloak.updateToken(30).then(function updateStudies() {
+    keycloak.updateToken(30).then(function updateImage() {
         const imageURL = 'https://test.kheops.online/wado?studyUID=2.16.840.1.113669.632.20.121711.10000158860&seriesUID=1.2.276.0.7238010.5.1.3.0.43445.1378269638.1&requestType=WADO&rows=500&columns=500';
 
         let req = new XMLHttpRequest();
@@ -53,12 +53,9 @@ function loadImage() {
 
         req.onload = function () {
             if (req.status === 200) {
-                let arr = new Uint8Array(req.response);
-                let raw = String.fromCharCode.apply(null,arr);
-
-                let b64=btoa(raw);
-                document.getElementById('sample-image').src = 'data:image/jpeg;base64,' + b64;
-
+                let uintArray = new Uint8Array(req.response);
+                let base64 = btoa(String.fromCharCode.apply(null, uintArray)); // only workable if the buffer is smallish ~100k
+                document.getElementById('sample-image').src = 'data:image/jpeg;base64,' + base64;
             } else if (req.status === 401) {
                 alert('401 Unauthorized');
             } else if (req.status === 403) {
