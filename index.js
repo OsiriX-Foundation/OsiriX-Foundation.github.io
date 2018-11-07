@@ -41,6 +41,39 @@ function loadStudies() {
     });
 }
 
+function loadImage() {
+    keycloak.updateToken(30).then(function updateStudies() {
+        const imageURL = 'https://test.kheops.online/wado?studyUID=2.16.840.1.113669.632.20.121711.10000158860&seriesUID=1.2.276.0.7238010.5.1.3.0.43445.1378269638.1&requestType=WADO&rows=500&columns=500';
+
+        let req = new XMLHttpRequest();
+        req.open('GET', imageURL, true);
+        req.setRequestHeader('Accept', 'image/jpeg');
+        req.setRequestHeader('Authorization', 'Bearer ' + keycloak.token);
+        req.responseType = 'arraybuffer';
+
+        req.onload = function () {
+            if (req.status === 200) {
+                let arr = new Uint8Array(req.response);
+                let raw = String.fromCharCode.apply(null,arr);
+
+                let b64=btoa(raw);
+                document.getElementById('sample-image').src = 'data:image/jpeg;base64,' + b64;
+
+            } else if (req.status === 401) {
+                alert('401 Unauthorized');
+            } else if (req.status === 403) {
+                alert('403 Forbidden');
+            } else {
+                alert('Invalid Status: ' + req.status);
+            }
+        };
+
+        req.send();
+    }).catch(function() {
+        alert('Failed to refresh token');
+    });
+}
+
 function clearStudies() {
     document.getElementById('study-list').textContent = "";
 }
