@@ -35,7 +35,7 @@ function loadStudies() {
 
                 let qido = JSON.parse(req.responseText);
                 let firstStudy = qido[0]["0020000D"]["Value"][0];
-                let link = document.getElementById('first-study-link');
+                let link = document.getElementById('first-study');
 
                 link.textContent = firstStudy;
                 link.href = "https://ohif.kheops.online/?url=https://test.kheops.online/studies/" + firstStudy + "/ohifmetadata#token=" + keycloak.token;
