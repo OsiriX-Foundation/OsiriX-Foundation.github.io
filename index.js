@@ -33,7 +33,7 @@ function loadStudies() {
             if (req.status === 200) {
                 document.getElementById('study-list').textContent = req.responseText;
 
-                let qido = JSON.parse(json);
+                let qido = JSON.parse(req.responseText);
                 let firstStudy = qido[0]["0020000D"]["Value"][0];
                 let link = document.getElementById('first-study-link');
 
