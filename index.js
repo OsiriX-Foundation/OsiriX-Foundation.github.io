@@ -36,9 +36,13 @@ function loadStudies() {
                 let qido = JSON.parse(req.responseText);
                 let firstStudy = qido[0]["0020000D"]["Value"][0];
                 let link = document.getElementById('first-study');
+                let zip = document.getElementById('first-study-zip');
 
                 link.textContent = firstStudy;
                 link.href = "https://ohif.kheops.online/?url=https://test.kheops.online/studies/" + firstStudy + "/ohifmetadata#token=" + keycloak.token;
+            
+                zip.textContent = firstStudy;
+                zip.href = "https://test.kheops.online/link/" + encodeURI(keycloak.token) + "/studies/" + firstStudy + "?accept=application%2Fzip";
             } else if (req.status === 403) {
                 alert('Forbidden');
             }
